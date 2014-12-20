@@ -22,7 +22,7 @@ int move(int *board, int en, int side);
 // what rank is square i?
 inline int rank(int i)
 {
-  if (i < 20) return 0; if (i < 30) return 1; if (i < 40) return 2;
+	if (i < 20) return 0; if (i < 30) return 1; if (i < 40) return 2;
 	if (i < 50) return 3; if (i < 60) return 4; if (i < 70) return 5;
 	if (i < 80) return 6;
 	return 7;
@@ -37,8 +37,8 @@ void readmv(int x, int y, int *en)
 {
 	int ef, er;	
 
-	ef = (int)nearbyintf(((float)x - 50) / 50.);
-	er = (int)nearbyintf(((float)y - 50) / 50.);
+	ef = (int)nearbyintf(((float)x - 50) / 50.f);
+	er = (int)nearbyintf(((float)y - 50) / 50.f);
 
 	*en = ef + 10*er + 11;
 }
@@ -317,7 +317,7 @@ int evalb(int *board, int recur, int side)
 	cpboard(board, temp); // make a safety copy
 	
 	// is anything dangerous about to happen?
-	if (recur > 0)
+	if (recur > 1)
 	{
 		// find possible replies for opposite side
 		if (recur % 2 == 0) s = parity; else s = -parity;
