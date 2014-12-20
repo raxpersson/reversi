@@ -117,7 +117,7 @@ void printst(int *board, int flag)
 
 int main(int argc, char *argv[])
 {
-	int x, y, en, side, depth, score; 
+	int x, y, en, side, depth, game_over = 0;
 
 	// true reversi starts with empty board, but that is not implemented yet!
 	// therefore, here is the othello starting arrangement.
@@ -175,7 +175,7 @@ int main(int argc, char *argv[])
 		printst(board, 0);
 	}
 	// game loop
-	while (1)
+	while (!game_over)
 	{
 		printf("Place stone at (x y): ");
 		scanf("%i %i", &x, &y);
@@ -189,7 +189,7 @@ int main(int argc, char *argv[])
 			printst(board, 0);
 				
 			// find reply
-			score = findmv(side, board, &en, depth);
+			findmv(side, board, &en, depth);
 			if (move(board, en, side))
 			{
 				highlight();
@@ -201,11 +201,11 @@ int main(int argc, char *argv[])
 		{
 			// check and see if user CAN move at all
 			en = -1;
-			score = findmv(-side, board, &en, depth);
+			findmv(-side, board, &en, depth);
 			if (en == -1)
 			{
 				// computer move instead
-				score = findmv(side, board, &en, depth);
+				findmv(side, board, &en, depth);
 				if (move(board, en, side))
 				{
 					printbd(board);
@@ -215,6 +215,7 @@ int main(int argc, char *argv[])
 				{
 					// Game over
 					printst(board, 1);
+					game_over = 1;
 				}
 			}
 		}
@@ -235,7 +236,7 @@ int evalb(int *board, int recur, int side)
 	cpboard(board, temp); // make a safety copy
 	
 	// is anything dangerous about to happen?
-	if (recur > 0)
+	if (recur > 1)
 	{
 		// find possible replies for opposite side
 		if (recur % 2 == 0) s = parity; else s = -parity;
